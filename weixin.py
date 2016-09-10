@@ -705,8 +705,8 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                if self.autoReplyMode:
-                    ans = self._xiaodoubi(content) + '\n[微信机器人自动回复]'
+                if content == '一言':
+                    ans = self._xiaodoubi(content)
                     if self.webwxsendmsg(ans, msg['FromUserName']):
                         print '自动回复: ' + ans
                         logging.info('自动回复: ' + ans)
@@ -807,17 +807,20 @@ class WebWeixin(object):
                     if r is not None:
                         self.handleMsg(r)
                 elif selector == '6':
+                    r = self.webwxsync()
                     # TODO
-                    redEnvelope += 1
-                    print '[*] 收到疑似红包消息 %d 次' % redEnvelope
-                    logging.debug('[*] 收到疑似红包消息 %d 次' % redEnvelope)
+                    # redEnvelope += 1
+                    # print '[*] 收到疑似红包消息 %d 次' % redEnvelope
+                    # logging.debug('[*] 收到疑似红包消息 %d 次' % redEnvelope)
                 elif selector == '7':
-                    playWeChat += 1
-                    print '[*] 你在手机上玩微信被我发现了 %d 次' % playWeChat
-                    logging.debug('[*] 你在手机上玩微信被我发现了 %d 次' % playWeChat)
+                    # playWeChat += 1
+                    # print '[*] 你在手机上玩微信被我发现了 %d 次' % playWeChat
+                    # logging.debug('[*] 你在手机上玩微信被我发现了 %d 次' % playWeChat)
                     r = self.webwxsync()
                 elif selector == '0':
                     time.sleep(1)
+                else:
+                    r = self.webwxsync()
             if (time.time() - self.lastCheckTs) <= 20:
                 time.sleep(time.time() - self.lastCheckTs)
 
@@ -1001,7 +1004,12 @@ class WebWeixin(object):
             request.add_header('Range', 'bytes=0-')
         if api == 'webwxgetvideo':
             request.add_header('Range', 'bytes=0-')
-        response = urllib2.urlopen(request)
+        while(True):
+            try:
+                response = urllib2.urlopen(request)
+                break
+            except Exception, e:
+                time.sleep(3)
         data = response.read()
         logging.debug(url)
         return data
@@ -1013,16 +1021,21 @@ class WebWeixin(object):
                 'ContentType', 'application/json; charset=UTF-8')
         else:
             request = urllib2.Request(url=url, data=urllib.urlencode(params))
-        response = urllib2.urlopen(request)
+        while(True):
+            try:
+                response = urllib2.urlopen(request)
+                break
+            except Exception, e:
+                time.sleep(3)
         data = response.read()
         if jsonfmt:
             return json.loads(data, object_hook=_decode_dict)
         return data
 
     def _xiaodoubi(self, word):
-        url = 'http://www.xiaodoubi.com/bot/chat.php'
+        url = 'http://hitokoto.api.freejishu.com/v2/'
         try:
-            r = requests.post(url, data={'chat': word})
+            r = requests.get(url)
             return r.content
         except:
             return "让我一个人静静 T_T..."
