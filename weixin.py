@@ -155,6 +155,7 @@ class WebWeixin(object):
         else:
             print '\n二维码乱码时请把此URL手动生成二维码：https://login.weixin.qq.com/l/' + self.uuid + '\n'
             self._str2qr('https://login.weixin.qq.com/l/' + self.uuid)
+            print '\n二维码乱码时请把此URL手动生成二维码：https://login.weixin.qq.com/l/' + self.uuid + '\n'
 
     def _showQRCodeImg(self):
         url = 'https://login.weixin.qq.com/qrcode/' + self.uuid
