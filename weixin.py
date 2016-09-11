@@ -153,7 +153,7 @@ class WebWeixin(object):
         if sys.platform.startswith('win'):
             self._showQRCodeImg()
         else:
-            print 'https://login.weixin.qq.com/l/' + self.uuid
+            print '\n二维码乱码时请把此URL手动生成二维码：https://login.weixin.qq.com/l/' + self.uuid + '\n'
             self._str2qr('https://login.weixin.qq.com/l/' + self.uuid)
 
     def _showQRCodeImg(self):
@@ -1034,7 +1034,7 @@ class WebWeixin(object):
         return data
 
     def _xiaodoubi(self, word):
-        url = 'http://hitokoto.api.freejishu.com/v2/'
+        url = 'https://api.lwl12.com/hitokoto/main/get'
         try:
             r = requests.get(url)
             return r.content
