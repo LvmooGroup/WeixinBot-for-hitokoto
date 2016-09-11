@@ -8,7 +8,7 @@
 
 收到微信消息“一言”时，自动回复一句话，效果如图
 
-![http://ww3.sinaimg.cn/large/006y8lVagw1f7pkrtzbp5j30u01hcgt3.jpg]()
+![](http://ww3.sinaimg.cn/large/006y8lVagw1f7pkrtzbp5j30u01hcgt3.jpg)
 
 ## 运行
 
