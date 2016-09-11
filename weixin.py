@@ -153,6 +153,7 @@ class WebWeixin(object):
         if sys.platform.startswith('win'):
             self._showQRCodeImg()
         else:
+            print 'https://login.weixin.qq.com/l/' + self.uuid
             self._str2qr('https://login.weixin.qq.com/l/' + self.uuid)
 
     def _showQRCodeImg(self):
