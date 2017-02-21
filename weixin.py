@@ -161,8 +161,6 @@ class WebWeixin(object):
         elif sys.platform.find('darwin') >= 0:
             self._showQRCodeImg('macos')
         else:
-#            self._str2qr('https://login.weixin.qq.com/l/' + self.uuid)
-            print '\n二维码乱码时请把此URL手动生成二维码：https://login.weixin.qq.com/l/' + self.uuid + '\n'
             self._str2qr('https://login.weixin.qq.com/l/' + self.uuid)
 
     def _showQRCodeImg(self, os):
@@ -758,8 +756,8 @@ class WebWeixin(object):
                 self._showMsg(raw_msg)
 #                if self.autoReplyMode:
 #                    ans = self._xiaodoubi(content) + '\n[微信机器人自动回复]'
-                 if content == '一言':
-                     ans = self._xiaodoubi(content)
+                if content == '一言':
+                    ans = self._xiaodoubi(content)
                     if self.webwxsendmsg(ans, msg['FromUserName']):
                         print '自动回复: ' + ans
                         logging.info('自动回复: ' + ans)
@@ -872,8 +870,8 @@ class WebWeixin(object):
                     r = self.webwxsync()
                 elif selector == '0':
                     time.sleep(1)
-                    else:
-                        r = self.webwxsync()
+                else:
+                    r = self.webwxsync()
             if (time.time() - self.lastCheckTs) <= 20:
                 time.sleep(time.time() - self.lastCheckTs)
 
@@ -1067,13 +1065,7 @@ class WebWeixin(object):
         if api == 'webwxgetvideo':
             request.add_header('Range', 'bytes=0-')
         try:
-#            response = urllib2.urlopen(request)
-            while(True):
-             try:
-                 response = urllib2.urlopen(request)
-                 break
-             except Exception, e:
-                 time.sleep(3)
+            response = urllib2.urlopen(request)
             data = response.read()
             logging.debug(url)
             return data
@@ -1098,13 +1090,7 @@ class WebWeixin(object):
 
 
         try:
-#            response = urllib2.urlopen(request)
-        while(True):
-             try:
-                 response = urllib2.urlopen(request)
-                 break
-             except Exception, e:
-                 time.sleep(3)
+            response = urllib2.urlopen(request)
             data = response.read()
             if jsonfmt:
                 return json.loads(data, object_hook=_decode_dict)
@@ -1123,10 +1109,9 @@ class WebWeixin(object):
 
     def _xiaodoubi(self, word):
 #        url = 'http://www.xiaodoubi.com/bot/chat.php'
-        url = 'https://api.lvmoo.com/hitokoto'        
+        url = 'https://api.lvmoo.com/hitokoto/index.php'
         try:
-#            r = requests.post(url, data={'chat': word})
-            r = requests.get(url)
+            r = requests.post(url, data={'chat': word})
             return r.content
         except:
             return "让我一个人静静 T_T..."
